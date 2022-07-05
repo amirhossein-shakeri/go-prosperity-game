@@ -12,12 +12,12 @@ type User struct {
 	Password         string `json:"password" bson:"password"`
 }
 
-func New(email, name, password string) *User {
+func NewUser(email, name, password string) *User {
 	return &User{Email: email, Name: name, Password: password}
 }
 
-func Create(email, name, password string) (*User, error) {
-	usr := New(email, name, password)
+func CreateUser(email, name, password string) (*User, error) {
+	usr := NewUser(email, name, password)
 
 	/* hash password */
 	usr.Password, _ = HashPassword(usr.Password)
