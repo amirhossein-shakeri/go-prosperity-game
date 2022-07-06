@@ -52,3 +52,7 @@ func GetJWTSecret() string {
 	}
 	return secret
 }
+
+/*
+Dude! I love this mechanical keyboard! It's awesome!
+*/

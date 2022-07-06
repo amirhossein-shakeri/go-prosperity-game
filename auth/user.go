@@ -1,7 +1,11 @@
 package auth
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/kamva/mgm/v3"
+	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -9,7 +13,7 @@ type User struct {
 	mgm.DefaultModel `bson:",inline"`
 	Email            string `json:"email" bson:"email"`
 	Name             string `json:"name" bson:"name"`
-	Password         string `json:"password" bson:"password"`
+	Password         string `json:"password" bson:"password"` // todo: hide password for json
 }
 
 func NewUser(email, name, password string) *User {
@@ -26,9 +30,17 @@ func CreateUser(email, name, password string) (*User, error) {
 	return usr, mgm.Coll(usr).Create(usr)
 }
 
-func Find(id string) *User {
+func FindUser(id string) *User {
 	usr := &User{}
 	if err := mgm.Coll(usr).FindByID(id, usr); err != nil {
+		return nil
+	}
+	return usr
+}
+
+func FindUserByEmail(email string) *User {
+	usr := &User{}
+	if err := mgm.Coll(usr).First(bson.M{"email": email}, usr); err != nil {
 		return nil
 	}
 	return usr
@@ -41,4 +53,20 @@ func HashPassword(password string) (string, error) {
 
 func CheckPasswordHash(password, hash string) bool {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)) == nil
+}
+
+func AuthenticateUser(email, password string) (*User, string) {
+	/* Login the user */
+	usr := FindUserByEmail(email)
+	if usr == nil {
+		log.Println("Login attempt failed. Email", email, "not found")
+		return nil, "Email not found"
+	}
+	fmt.Println("USER: ", usr)
+	if !CheckPasswordHash(password, usr.Password) {
+		log.Println("Login attempt failed. Wrong password for", email)
+		return nil, "Wrong password"
+	}
+	log.Println("Successful login attempt.", email, "is authenticated")
+	return usr, "Successfully logged in"
 }

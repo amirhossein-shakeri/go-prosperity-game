@@ -1,6 +1,7 @@
 package main
 
 import (
+	"amirhossein-shakeri/go-prosperity-game/auth"
 	"amirhossein-shakeri/go-prosperity-game/db"
 	"amirhossein-shakeri/go-prosperity-game/level"
 	"log"
@@ -32,9 +33,9 @@ func setupRoutes(router *gin.Engine) {
 	router.Any("/health", healthHandler)
 	authRouter := router.Group("/auth")
 	{
-		authRouter.GET("/")        // get session info
-		authRouter.POST("/")       // login
-		authRouter.POST("/signup") // signup
+		authRouter.GET("/", auth.GetInfo)       // get session info
+		authRouter.POST("/", auth.Login)        // login
+		authRouter.POST("/signup", auth.Signup) // signup
 	}
 	levelRouter := router.Group("/levels")
 	{
