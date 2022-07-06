@@ -1,0 +1,7 @@
+- Changing the `Item` to purchase 
+- Setup JWT Auth
+  - Signup
+  - Login
+- Level CRUD API
+- Item/Purchase CRUD API
+- GraphQL API?
