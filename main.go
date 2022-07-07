@@ -40,15 +40,19 @@ func setupRoutes(router *gin.Engine) {
 	levelRouter := router.Group("/levels", auth.AuthorizeJWT())
 	{
 		levelRouter.GET("/", level.GetLevels)
-		levelRouter.GET("/:id", level.GetLevel)
+		levelRouter.GET("/:levelId", level.GetLevel)
 		levelRouter.POST("/", level.PostLevel)
-		levelRouter.PATCH("/:id")
-		levelRouter.PUT("/:id")
-		levelRouter.DELETE("/:id")
+		levelRouter.PATCH("/:levelId")
+		levelRouter.PUT("/:levelId")
+		levelRouter.DELETE("/:levelId", level.DeleteLevel)
 	}
-	itemRouter := router.Group("/items", auth.AuthorizeJWT())
+	itemRouter := levelRouter.Group("/:levelId/items", auth.AuthorizeJWT())
 	{
-		itemRouter.GET("/")
+		itemRouter.GET("/")           // Get all level items
+		itemRouter.POST("/")          // Create new item in level
+		itemRouter.PATCH("/:itemId")  // Update an item in a level
+		itemRouter.PUT("/:itemId")    // Update an item in a level
+		itemRouter.DELETE("/:itemId") // Delete an item from a level
 	}
 }
 
