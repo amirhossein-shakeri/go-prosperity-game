@@ -33,13 +33,18 @@ func setupRoutes(router *gin.Engine) {
 	router.Any("/health", healthHandler)
 	authRouter := router.Group("/auth")
 	{
-		authRouter.GET("/", auth.GetInfo)       // get session info
-		authRouter.POST("/", auth.Login)        // login
-		authRouter.POST("/signup", auth.Signup) // signup
+		authRouter.GET("/", auth.AuthorizeJWT(), auth.GetInfo) // get session info
+		authRouter.POST("/", auth.Login)                       // login
+		authRouter.POST("/signup", auth.Signup)                // signup
 	}
 	levelRouter := router.Group("/levels", auth.AuthorizeJWT())
 	{
 		levelRouter.GET("/", level.GetLevels)
+		levelRouter.GET("/:id")
+		levelRouter.POST("/")
+		levelRouter.PATCH("/:id")
+		levelRouter.PUT("/:id")
+		levelRouter.DELETE("/:id")
 	}
 	itemRouter := router.Group("/items", auth.AuthorizeJWT())
 	{
