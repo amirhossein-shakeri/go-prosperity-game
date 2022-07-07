@@ -40,8 +40,8 @@ func setupRoutes(router *gin.Engine) {
 	levelRouter := router.Group("/levels", auth.AuthorizeJWT())
 	{
 		levelRouter.GET("/", level.GetLevels)
-		levelRouter.GET("/:id")
-		levelRouter.POST("/")
+		levelRouter.GET("/:id", level.GetLevel)
+		levelRouter.POST("/", level.PostLevel)
 		levelRouter.PATCH("/:id")
 		levelRouter.PUT("/:id")
 		levelRouter.DELETE("/:id")
