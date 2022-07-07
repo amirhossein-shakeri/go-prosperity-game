@@ -7,18 +7,18 @@ import (
 )
 
 type LoginRequest struct {
-	Email    string `json:"email" form:"email" xml:"email"`
-	Password string `json:"password" form:"password" xml:"password"`
+	Email    string `json:"email" form:"email" xml:"email" binding:"required,email"`
+	Password string `json:"password" form:"password" xml:"password" binding:"required"`
 }
 
 type SignupRequest struct {
-	Email    string `json:"email" form:"email" xml:"email"`
-	Password string `json:"password" form:"password" xml:"password"`
-	Name     string `json:"name" form:"name" xml:"name"`
+	Email    string `json:"email" form:"email" xml:"email" binding:"required,email"`
+	Password string `json:"password" form:"password" xml:"password" binding:"required"`
+	Name     string `json:"name" form:"name" xml:"name" binding:"required"`
 }
 
 func GetInfo(ctx *gin.Context) {
-	//
+	ctx.JSON(http.StatusOK, gin.H{"user": FindUser(ctx.GetString("user_id"))})
 }
 
 func Login(ctx *gin.Context) {

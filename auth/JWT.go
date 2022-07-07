@@ -20,7 +20,7 @@ type AuthClaims struct {
 
 func GenerateJWTToken(u *User) string {
 	claims := &AuthClaims{
-		ID:    u.ID.String(),
+		ID:    u.ID.Hex(),
 		Email: u.Email,
 		Name:  u.Name,
 		StandardClaims: jwt.StandardClaims{
