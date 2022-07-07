@@ -37,9 +37,9 @@ func GenerateJWTToken(u *User) string {
 }
 
 func ValidateJWTToken(encodedToken string) (*jwt.Token, error) {
-	return jwt.Parse(encodedToken, func(t *jwt.Token) (interface{}, error) {
+	return jwt.ParseWithClaims(encodedToken, &AuthClaims{}, func(t *jwt.Token) (interface{}, error) {
 		if _, isValid := t.Method.(*jwt.SigningMethodHMAC); !isValid {
-			return nil, fmt.Errorf("Invalid Token", t.Header["alg"])
+			return nil, fmt.Errorf("invalid token %v", t.Header["alg"])
 		}
 		return []byte(GetJWTSecret()), nil
 	})

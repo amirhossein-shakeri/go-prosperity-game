@@ -37,11 +37,11 @@ func setupRoutes(router *gin.Engine) {
 		authRouter.POST("/", auth.Login)        // login
 		authRouter.POST("/signup", auth.Signup) // signup
 	}
-	levelRouter := router.Group("/levels")
+	levelRouter := router.Group("/levels", auth.AuthorizeJWT())
 	{
 		levelRouter.GET("/", level.GetLevels)
 	}
-	itemRouter := router.Group("/items")
+	itemRouter := router.Group("/items", auth.AuthorizeJWT())
 	{
 		itemRouter.GET("/")
 	}

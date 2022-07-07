@@ -37,7 +37,7 @@ func Login(ctx *gin.Context) {
 	}
 
 	token := GenerateJWTToken(user)
-	ctx.JSON(http.StatusOK, gin.H{"token": token, "message": message})
+	ctx.JSON(http.StatusOK, gin.H{"token": token, "message": message, "user": user})
 	// return token
 }
 

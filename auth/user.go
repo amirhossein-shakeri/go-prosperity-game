@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/kamva/mgm/v3"
@@ -62,7 +61,6 @@ func AuthenticateUser(email, password string) (*User, string) {
 		log.Println("Login attempt failed. Email", email, "not found")
 		return nil, "Email not found"
 	}
-	fmt.Println("USER: ", usr)
 	if !CheckPasswordHash(password, usr.Password) {
 		log.Println("Login attempt failed. Wrong password for", email)
 		return nil, "Wrong password"
