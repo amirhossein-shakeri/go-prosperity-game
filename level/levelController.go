@@ -10,13 +10,12 @@ import (
 
 func GetLevels(ctx *gin.Context) {
 	levels := []Level{}
-	if err := mgm.Coll(&Level{}).SimpleFind(&levels, bson.M{}); err != nil { // userId
+	if err := mgm.Coll(&Level{}).SimpleFind(&levels, bson.M{"userId": ctx.GetString("user_id")}); err != nil { // userId
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 	}
 	ctx.JSON(http.StatusOK, levels)
 }
 
-// var levels []Level = []Level{
-// 	*New(1, nil, ""),
-// 	*New(2, nil, ""),
-// }
+func PostLevel(ctx *gin.Context) {
+	//
+}
