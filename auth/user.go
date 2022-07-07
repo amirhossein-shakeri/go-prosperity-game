@@ -12,7 +12,7 @@ type User struct {
 	mgm.DefaultModel `bson:",inline"`
 	Email            string `json:"email" bson:"email"`
 	Name             string `json:"name" bson:"name"`
-	Password         string `json:"password" bson:"password"` // todo: hide password for json
+	Password         string `json:"-" bson:"password"` // todo: hide password for json
 }
 
 func NewUser(email, name, password string) *User {
