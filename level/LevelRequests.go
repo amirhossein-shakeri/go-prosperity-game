@@ -8,4 +8,6 @@ type CreateLevelRequest struct {
 	// Items  []item.CreateItemRequest `json:"items" form:"items" xml:"items"`
 }
 
+type UpdateLevelRequest CreateLevelRequest
+
 var ErrForbidden = gin.H{"message": "You don't have access to this level, bitch!"}

@@ -54,6 +54,28 @@ func PostLevel(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, level)
 }
 
+func UpdateLevel(ctx *gin.Context) {
+	req := &UpdateLevelRequest{}
+	if err := ctx.ShouldBind(req); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	level := Find(ctx.Param("levelId"))
+	if level == nil {
+		ctx.AbortWithStatus(http.StatusNotFound)
+		return
+	}
+
+	level.Note = req.Note
+
+	if err := mgm.Coll(level).Update(level); err != nil {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, level)
+}
+
 func DeleteLevel(ctx *gin.Context) {
 	level := Find(ctx.Param("levelId"))
 	if level == nil {
