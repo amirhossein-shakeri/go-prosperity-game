@@ -1,7 +1,7 @@
 - Changing the `Item` to purchase 
-- Setup JWT Auth
-  - Signup
-  - Login
+✔ Setup JWT Auth @done(22-07-09 21:52)
+  ✔ Signup @done(22-07-09 21:52)
+  ✔ Login @done(22-07-09 21:52)
 - Level CRUD API
 - Item/Purchase CRUD API
 - GraphQL API?

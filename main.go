@@ -3,6 +3,7 @@ package main
 import (
 	"amirhossein-shakeri/go-prosperity-game/auth"
 	"amirhossein-shakeri/go-prosperity-game/db"
+	"amirhossein-shakeri/go-prosperity-game/item"
 	"amirhossein-shakeri/go-prosperity-game/level"
 	"log"
 	"os"
@@ -46,13 +47,14 @@ func setupRoutes(router *gin.Engine) {
 		levelRouter.PUT("/:levelId")
 		levelRouter.DELETE("/:levelId", level.DeleteLevel)
 	}
-	itemRouter := levelRouter.Group("/:levelId/items", auth.AuthorizeJWT())
+	itemRouter := router.Group("/items", auth.AuthorizeJWT())
 	{
-		itemRouter.GET("/")           // Get all level items
-		itemRouter.POST("/")          // Create new item in level
-		itemRouter.PATCH("/:itemId")  // Update an item in a level
-		itemRouter.PUT("/:itemId")    // Update an item in a level
-		itemRouter.DELETE("/:itemId") // Delete an item from a level
+		itemRouter.GET("/:levelId", item.GetItems)     // Get all level items
+		itemRouter.POST("/", level.PostItem)           // Create new item in level
+		itemRouter.PATCH("/:itemId")                   // Update an item in a level
+		itemRouter.PUT("/:itemId")                     // Update an item in a level
+		itemRouter.DELETE("/:itemId", item.DeleteItem) // Delete an item from a level
+		// reorder or change the order ...
 	}
 }
 
